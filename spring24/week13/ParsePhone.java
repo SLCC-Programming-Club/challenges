@@ -19,7 +19,77 @@ import java.util.Scanner;
  */
 public class ParsePhone {
     private static boolean isValidNumber(String number) {
-        return false; // TODO: Implement this method
+        char[] chars = number.toCharArray();
+
+        Queue q = new Queue();
+        for(int i = 0; i < chars.length; i++) {
+            if(Character.isDigit(chars[i])) 
+                q.enqueue(Integer.parseInt(chars[i] + ""));
+        }
+
+        if(q.getSize() != 10) return false;
+        else return true;
+    }
+
+    private static class Queue {
+        private Node head;
+        private Node tail;
+        private int size;
+
+        public Queue() {
+            head = null;
+            tail = head;
+            size = 0;
+        }
+
+        public void enqueue(int value) {
+            Node newNode = new Node(value);
+            if(head == null) {
+                head = newNode;
+                tail = head;
+                size++;
+                return;
+            }
+
+            tail.setNext(newNode);
+            tail = newNode;
+            size++;
+        }
+
+        public Node dequeue() {
+            if(head == null) return null;
+
+            Node tmp = head;
+            head = head.next;
+
+            size--;
+            return tmp;
+        }
+
+        public int getSize() {
+            return size;
+        }
+
+        private class Node {
+            private Node next;
+            private int value;
+
+            public Node(int value) {
+                this.value = value;
+            }
+
+            public boolean hasNext() {
+                return next != null;
+            }
+
+            public Node getNext() {
+                return next;
+            }
+
+            public void setNext(Node next) {
+                this.next = next;
+            }
+        }
     }
 
     public static void main(String[] args) {
